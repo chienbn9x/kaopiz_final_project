@@ -1,0 +1,17 @@
+<% unless user_signed_in? %>
+<div style="margin-bottom: 1rem; padding-top: 10px; padding-bottom: 10px; border: 1px solid #d6d6d7; border-radius: 4px;">
+    <span class="d-flex justify-content-center">Đăng nhập để bình luận.</span>
+</div>
+<% else %>
+<div class="comment-form d-flex">
+    <% if current_user.avatar.attached? %>
+        <%= image_tag current_user.avatar, {size: '40', class: 'rounded-circle', style: 'margin-right: 10px;'} %>
+    <% else %>
+        <%= image_tag "avatar.jpg", {size: '40', class: 'rounded-circle', style: 'margin-right: 10px;'} %>
+    <% end %>
+    <%= form_with model: [@post, @post.comments.build], html: {style: 'width: 100%;'} do |f| %>
+        <%= f.text_area :content, {style: 'width: 100%;', rows: '5', placeholder: 'Viết bình luận...'} %>
+        <%= f.submit 'Bình luận', {class: 'btn btn-primary float-right', disabled: !user_signed_in?} %>
+    <% end %>
+</div>
+<% end %>

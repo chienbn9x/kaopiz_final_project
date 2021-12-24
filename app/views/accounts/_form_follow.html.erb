@@ -1,0 +1,29 @@
+<% if user_signed_in? %>
+    <% if follow_user.id == current_user.id %>
+    <button class="btn btn-follow">
+        <a href="<%= edit_user_registration_path %>" style="text-decoration: none;">
+            <span>Sửa</span>
+        </a>
+    </button>
+    <% else %>
+        <% follow = current_user.follows.find_by(follow_id: follow_user.id) %>
+            <% if follow.nil? %>
+                <%= form_with url: follows_path, html: {id: 'post-form-follow'} do |f| %>
+                <%= f.hidden_field :follow_id, {value: follow_user.id} %>
+                <button class="btn btn-follow" id="btn-submit-form-follow">Theo dõi</button>
+                <% end %>
+            <% else %>
+            <%= form_with url: follow_path(follow), html: {id: 'post-form-follow'}, method: 'delete' do |f| %>
+            <button id="btn-submit-form-follow" class="btn btn-follow" style="background-color: #5488c7;">
+                <span style="color: #fff;">Đang theo dõi</span>
+            </button>
+            <% end %>
+        <% end %>
+    <% end %>
+<% else %>
+<button class="btn btn-follow">
+    <a href="" style="text-decoration: none; cursor: no-drop;">
+        <span>Theo dõi</span>
+    </a>
+</button>
+<% end %>

@@ -6,139 +6,10 @@
         <div class="hidden-md-down post-action">
             <div class="post-actions d-flex flex-column align-items-center mx-auto">
                 <div class="vote votes--side post-actions__vote mb-1">
-                    <% if user_signed_in? %>
-                    <% like = current_user.likes.find_by(post_id: @post.id) %>
-                    <% if like.nil? %>
-                    <%= form_with url: likes_path, html: {id: 'form-up-like'} do |f| %>
-                    <%= f.hidden_field :status, {value: 1} %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-up-like" class="icon-btn vote" style="color: #9b9b9b;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                        </svg>
-                    </button>
-                    <% end %>
-                    <div class="points text-muted">
-                        <% result = 0 %>
-                        <% @post.likes.each do |like_item| %>
-                        <% result = result + like_item.status %>
-                        <% end %>
-                        <% if result > 0 %>
-                            <%= "+#{result}" %>
-                        <% else %>
-                            <%= result %>
-                        <% end %>
-                    </div>
-                    <%= form_with url: likes_path, html: {id: 'form-down-like'} do |f| %>
-                    <%= f.hidden_field :status, {value: -1} %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-down-like" class="icon-btn vote" style="color: #9b9b9b;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                          </svg>
-                    </button>
-                    <% end %>
-                    <% elsif like.status == 1 %>
-                    <%= form_with url: like_path(like), method: "delete", html: {id: 'form-up-like'} do |f| %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-up-like" class="icon-btn vote" style="color: #5488c7;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                        </svg>
-                    </button>
-                    <% end %>
-                    <div class="points text-muted">
-                        <% result = 0 %>
-                        <% @post.likes.each do |like_item| %>
-                        <% result = result + like_item.status %>
-                        <% end %>
-                        <% if result > 0 %>
-                            <%= "+#{result}" %>
-                        <% else %>
-                            <%= result %>
-                        <% end %>
-                    </div>
-                    <%= form_with url: like_path(like), method: 'put', html: {id: 'form-down-like'} do |f| %>
-                    <%= f.hidden_field :status, {value: -1} %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-down-like" class="icon-btn vote" style="color: #9b9b9b;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                          </svg>
-                    </button>
-                    <% end %>
-                    <% elsif like.status == -1 %>
-                    <%= form_with url: like_path(like), method: 'put', html: {id: 'form-up-like'} do |f| %>
-                    <%= f.hidden_field :status, {value: 1} %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-up-like" class="icon-btn vote" style="color: #9b9b9b;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                        </svg>
-                    </button>
-                    <% end %>
-                    <div class="points text-muted">
-                        <% result = 0 %>
-                        <% @post.likes.each do |like_item| %>
-                        <% result = result + like_item.status %>
-                        <% end %>
-                        <% if result > 0 %>
-                            <%= "+#{result}" %>
-                        <% else %>
-                            <%= result %>
-                        <% end %>
-                    </div>
-                    <%= form_with url: like_path(like), :method => :delete, html: {id: 'form-down-like'} do |f| %>
-                    <%= f.hidden_field :post_id, {value: @post.id} %>
-                    <button id="post-down-like" class="icon-btn vote" style="color: #5488c7;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                          </svg>
-                    </button>
-                    <% end %>
-                    <% end %>
-                    <% else %>
-                    <button class="icon-btn vote" style="color: #9b9b9b; cursor: no-drop;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
-                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-                        </svg>
-                    </button>
-                    <div class="points text-muted">
-                        <% result = 0 %>
-                        <% @post.likes.each do |like_item| %>
-                        <% result = result + like_item.status %>
-                        <% end %>
-                        <% if result > 0 %>
-                            <%= "+#{result}" %>
-                        <% else %>
-                            <%= result %>
-                        <% end %>
-                    </div>
-                    <button class="icon-btn vote" style="color: #9b9b9b; cursor: no-drop;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                          </svg>
-                    </button>
-                    <% end %>
+                    <%= render partial: 'form_like' %>
                 </div>
                 <div class="subscribe">
-                    <% bookmark = current_user.bookmarks.find_by(post_id: @post.id) %>
-                    <% if bookmark.nil? %>
-                        <%= form_with url: bookmarks_path, html: {id: 'post-form-bookmark'} do |f| %>
-                        <%= f.hidden_field :post_id, {value: @post.id} %>
-                        <button id="btn-submit-form-bookmark" class="el-button post-actions__clip el-button--default rounded-circle">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
-                            </svg>
-                        </button>
-                        <% end %>
-                    <% else %>
-                    <button class="el-button post-actions__clip el-button--default rounded-circle" style="background-color: #5488c7; color: #fff;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
-                        </svg>
-                    </button>
-                    <% end %>
+                    <%= render partial: 'form_bookmark' %>
                 </div>
             </div>
         </div>
@@ -167,28 +38,7 @@
                                         </span>
                                     </div>
                                     <div class="sucscribe">
-                                        <% if user_signed_in? %>
-                                            <% if @post.user.id == current_user.id %>
-                                            <a href="<%= edit_user_registration_path %>">
-                                                <button class="el-button el-button--mini-mini is-plain">Sửa</button>
-                                            </a>
-                                            <% else %>
-                                                <% follow = current_user.follows.find_by(follow_id: @post.user.id) %>
-                                                    <% if follow.nil? %>
-                                                        <%= form_with url: follows_path, html: {id: 'post-form-follow'} do |f| %>
-                                                        <%= f.hidden_field :follow_id, {value: @post.user.id} %>
-                                                        <button id="btn-submit-form-follow" class="el-button el-button--mini-mini is-plain" style="border-color: #5488c7;">Theo dõi</button>
-                                                        <% end %>
-                                                    <% else %>
-                                                    <%= form_with url: follow_path(follow), html: {id: 'post-form-follow'}, method: 'delete' do |f| %>
-                                                    <%= f.hidden_field :follow_id, {value: @post.user.id} %>
-                                                    <button id="btn-submit-form-follow" class="el-button el-button--mini-mini is-plain" style="background-color: #5488c7; border-color: #5488c7; color: #f4f4f5;">Đang theo dõi</button>
-                                                    <% end %>
-                                                <% end %>
-                                            <% end %>
-                                        <% else %>
-                                            <button class="el-button el-button--mini-mini is-plain" style="cursor: no-drop;">Theo dõi</button>
-                                        <% end %>
+                                        <%= render partial: 'form_follow' %>
                                     </div>
                                 </div>
                                 <div class="stats">
@@ -352,23 +202,7 @@
                 Bình luận
             </h3>
             <div class="comment-threads">
-                <% unless user_signed_in? %>
-                <div style="margin-bottom: 1rem; padding-top: 10px; padding-bottom: 10px; border: 1px solid #d6d6d7; border-radius: 4px;">
-                    <span class="d-flex justify-content-center">Đăng nhập để bình luận.</span>
-                </div>
-                <% else %>
-                <div class="comment-form d-flex">
-                    <% if current_user.avatar.attached? %>
-                        <%= image_tag current_user.avatar, {size: '40', class: 'rounded-circle', style: 'margin-right: 10px;'} %>
-                    <% else %>
-                        <%= image_tag "avatar.jpg", {size: '40', class: 'rounded-circle', style: 'margin-right: 10px;'} %>
-                    <% end %>
-                    <%= form_with model: [@post, @post.comments.build], html: {style: 'width: 100%;'} do |f| %>
-                        <%= f.text_area :content, {style: 'width: 100%;', rows: '5', placeholder: 'Viết bình luận...'} %>
-                        <%= f.submit 'Bình luận', {class: 'btn btn-primary float-right', disabled: !user_signed_in?} %>
-                    <% end %>
-                </div>
-                <% end %>
+                <%= render partial: 'form_comment' %>
                 <div class="list-transition">
                     <% if @post.comments.count == 0 %>
                     <div style="padding-top: 10px; padding-bottom: 10px; border: 1px solid #d6d6d7; border-radius: 4px;">
@@ -502,31 +336,5 @@
       slides[slideIndex-1].style.display = "block";  
       dots[slideIndex-1].className += " active-dot";
       setTimeout(showSlides, 4000); // Change image every 4 seconds
-    }
-
-    // up and down like
-    var up_like = document.getElementById('post-up-like');
-    var down_like = document.getElementById('post-down-like');
-    var form_up_like = document.getElementById('form-up-like');
-    var form_down_like = document.getElementById('form-down-like');
-    up_like.onclick = function() {
-        form_up_like.submit();
-    };
-    down_like.onclick = function() {
-        form_down_like.submit();
-    };
-
-    // follow users
-    var btn_submit_form_follow = document.getElementById('btn-submit-form-follow');
-    var post_form_follow = document.getElementById('post-form-follow');
-    btn_submit_form_follow.onclick = function() {
-        post_form_follow.submit();
-    };
-
-    // bookmark
-    var post_form_bookmark = document.getElementById('post-form-bookmark');
-    var btn_submit_form_bookmark = document.getElementById('btn-submit-form-bookmark');
-    btn_submit_form_bookmark.onclick = function() {
-        post_form_bookmark.submit();
     }
 </script>

@@ -1,0 +1,128 @@
+<% if user_signed_in? %>
+    <% like = current_user.likes.find_by(post_id: @post.id) %>
+    <% if like.nil? %>
+        <%= form_with url: likes_path, html: {id: 'form-up-like'} do |f| %>
+        <%= f.hidden_field :status, {value: 1} %>
+        <%= f.hidden_field :post_id, {value: @post.id} %>
+        <button id="post-up-like" class="icon-btn vote" style="color: #9b9b9b;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+            </svg>
+        </button>
+        <% end %>
+    <div class="points text-muted">
+        <% result = 0 %>
+        <% @post.likes.each do |like_item| %>
+            <% result = result + like_item.status %>
+        <% end %>
+        <% if result > 0 %>
+            <%= "+#{result}" %>
+        <% else %>
+            <%= result %>
+        <% end %>
+    </div>
+        <%= form_with url: likes_path, html: {id: 'form-down-like'} do |f| %>
+            <%= f.hidden_field :status, {value: -1} %>
+            <%= f.hidden_field :post_id, {value: @post.id} %>
+            <button id="post-down-like" class="icon-btn vote" style="color: #9b9b9b;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+            </button>
+        <% end %>
+    <% elsif like.status == 1 %>
+        <%= form_with url: like_path(like), method: "delete", html: {id: 'form-up-like'} do |f| %>
+            <%= f.hidden_field :post_id, {value: @post.id} %>
+            <button id="post-up-like" class="icon-btn vote" style="color: #5488c7;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                </svg>
+            </button>
+        <% end %>
+    <div class="points text-muted">
+        <% result = 0 %>
+        <% @post.likes.each do |like_item| %>
+            <% result = result + like_item.status %>
+        <% end %>
+        <% if result > 0 %>
+            <%= "+#{result}" %>
+        <% else %>
+            <%= result %>
+        <% end %>
+    </div>
+        <%= form_with url: like_path(like), method: 'put', html: {id: 'form-down-like'} do |f| %>
+            <%= f.hidden_field :status, {value: -1} %>
+            <%= f.hidden_field :post_id, {value: @post.id} %>
+            <button id="post-down-like" class="icon-btn vote" style="color: #9b9b9b;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+            </button>
+        <% end %>
+    <% elsif like.status == -1 %>
+        <%= form_with url: like_path(like), method: 'put', html: {id: 'form-up-like'} do |f| %>
+            <%= f.hidden_field :status, {value: 1} %>
+            <%= f.hidden_field :post_id, {value: @post.id} %>
+            <button id="post-up-like" class="icon-btn vote" style="color: #9b9b9b;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                </svg>
+            </button>
+        <% end %>
+    <div class="points text-muted">
+        <% result = 0 %>
+        <% @post.likes.each do |like_item| %>
+            <% result = result + like_item.status %>
+        <% end %>
+        <% if result > 0 %>
+            <%= "+#{result}" %>
+        <% else %>
+            <%= result %>
+        <% end %>
+    </div>
+        <%= form_with url: like_path(like), :method => :delete, html: {id: 'form-down-like'} do |f| %>
+            <%= f.hidden_field :post_id, {value: @post.id} %>
+            <button id="post-down-like" class="icon-btn vote" style="color: #5488c7;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                </svg>
+            </button>
+        <% end %>
+    <% end %>
+<% else %>
+<button class="icon-btn vote" style="color: #9b9b9b; cursor: no-drop;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+        <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+    </svg>
+</button>
+<div class="points text-muted">
+    <% result = 0 %>
+    <% @post.likes.each do |like_item| %>
+        <% result = result + like_item.status %>
+    <% end %>
+    <% if result > 0 %>
+        <%= "+#{result}" %>
+    <% else %>
+        <%= result %>
+    <% end %>
+</div>
+<button class="icon-btn vote" style="color: #9b9b9b; cursor: no-drop;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+        </svg>
+</button>
+<% end %>
+
+<script type="text/javascript">
+    // up and down like
+    var up_like = document.getElementById('post-up-like');
+    var down_like = document.getElementById('post-down-like');
+    var form_up_like = document.getElementById('form-up-like');
+    var form_down_like = document.getElementById('form-down-like');
+    up_like.onclick = function() {
+        form_up_like.submit();
+    };
+    down_like.onclick = function() {
+        form_down_like.submit();
+    };
+</script>

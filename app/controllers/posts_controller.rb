@@ -22,7 +22,7 @@ class PostsController < ApplicationController
             @posts1 = Post.where.not(id: @posts.ids).joins(:action_text_rich_text).where("action_text_rich_texts.body LIKE ?", "%#{params[:Search]}%")
             @posts += @posts1
         else
-            @posts = Post.all.order("created_at DESC")
+            @posts = Post.all.order("updated_at DESC")
         end
     end
 

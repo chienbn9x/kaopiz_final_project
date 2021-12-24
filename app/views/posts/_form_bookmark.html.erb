@@ -1,0 +1,26 @@
+<% bookmark = current_user.bookmarks.find_by(post_id: @post.id) %>
+<% if bookmark.nil? %>
+    <%= form_with url: bookmarks_path, html: {id: 'post-form-bookmark'} do |f| %>
+    <%= f.hidden_field :post_id, {value: @post.id} %>
+    <button id="btn-submit-form-bookmark" class="el-button post-actions__clip el-button--default rounded-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+        </svg>
+    </button>
+    <% end %>
+<% else %>
+<button class="el-button post-actions__clip el-button--default rounded-circle" style="background-color: #5488c7; color: #fff;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+        <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+    </svg>
+</button>
+<% end %>
+
+<script type="text/javascript">
+    // bookmark
+    var post_form_bookmark = document.getElementById('post-form-bookmark');
+    var btn_submit_form_bookmark = document.getElementById('btn-submit-form-bookmark');
+    btn_submit_form_bookmark.onclick = function() {
+        post_form_bookmark.submit();
+    }
+</script>

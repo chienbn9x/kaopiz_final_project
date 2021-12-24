@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
     before_action :set_account, only: [:show, :bookmark, :following, :follower]
+    layout "account", only: [:show, :bookmark, :following, :follower]
 
     def show
     end

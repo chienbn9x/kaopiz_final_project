@@ -1,0 +1,31 @@
+<% if user_signed_in? %>
+    <% if @post.user.id == current_user.id %>
+    <a href="<%= edit_user_registration_path %>">
+        <button class="el-button el-button--mini-mini is-plain">Sửa</button>
+    </a>
+    <% else %>
+        <% follow = current_user.follows.find_by(follow_id: @post.user.id) %>
+        <% if follow.nil? %>
+            <%= form_with url: follows_path, html: {id: 'post-form-follow'} do |f| %>
+            <%= f.hidden_field :follow_id, {value: @post.user.id} %>
+            <button id="btn-submit-form-follow" class="el-button el-button--mini-mini is-plain" style="border-color: #5488c7;">Theo dõi</button>
+            <% end %>
+        <% else %>
+            <%= form_with url: follow_path(follow), html: {id: 'post-form-follow'}, method: 'delete' do |f| %>
+            <%= f.hidden_field :follow_id, {value: @post.user.id} %>
+            <button id="btn-submit-form-follow" class="el-button el-button--mini-mini is-plain" style="background-color: #5488c7; border-color: #5488c7; color: #f4f4f5;">Đang theo dõi</button>
+            <% end %>
+        <% end %>
+    <% end %>
+<% else %>
+<button class="el-button el-button--mini-mini is-plain" style="cursor: no-drop;">Theo dõi</button>
+<% end %>
+
+<script type="text/javascript">
+    // follow users
+    var btn_submit_form_follow = document.getElementById('btn-submit-form-follow');
+    var post_form_follow = document.getElementById('post-form-follow');
+    btn_submit_form_follow.onclick = function() {
+        post_form_follow.submit();
+    };
+</script>

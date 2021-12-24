@@ -1,0 +1,55 @@
+<div class="container sign-up" style="width: 500px; height: 100%;">
+  <div class="card login-content margin-center">
+    <a href="<%= new_user_session_path %>" class='margin-center'>
+      <%= image_tag("login.png", size: "70", alt: "Error Image") %>
+    </a>
+    <br>
+    <h3 class="margin-center">Đăng ký tài khoản cho Blog</h3>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <div class="form-group mb-1">
+        <%= f.label :name, 'Name', class: 'form-label' %>
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-1">
+        <%= f.label :email, 'Email', class: 'form-label' %>
+        <%= f.email_field :email, autocomplete: "email", class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-1">
+        <%= f.label :password, class: 'form-label' %><br />
+        <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-3">
+        <%= f.label :password_confirmation, class: 'form-label' %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+      </div>
+
+      <div class="actions mb-3">
+        <%= f.submit "Đăng ký", class: 'btn btn-primary btn-block' %>
+      </div>
+    <% end %>
+  
+    <div class="row">
+      <div class="col-md-3"><hr></div>
+      <div class="col-md-6 text-center"><p>Đăng nhập với</p></div>
+      <div class="col-md-3"><hr></div>
+    </div>
+    <div class="row mr-0 ml-0">
+      <div class="col border mr-3">
+        <%= image_tag("facebook.png", size: '25') %>
+        <%= link_to 'Facebook', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+      </div>
+      <div class="col border mr-3">
+        <%= image_tag("google.png", size: '25') %>
+        <%= link_to 'Google', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+      </div>
+      <div class="col border">
+        <%= image_tag("github.png", size: '25') %>
+        <%= link_to 'Github', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-center" style="margin-top: 80px;">
+  <a href="<%= new_user_session_path %>">
+    <%= image_tag "forgot-password.jpg", size: '70' %>
+  </a>
+</div>
+<div class="container forgot-password" style="width: 800px;">
+  
+  <div class="card forgot-password-content">
+    <h2 style="margin-bottom: 20px;">Quên mật khẩu</h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "users/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <%= f.label :email, 'Địa chỉ email của bạn', class: 'form-label' %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Gửi email cho tôi", {style: 'padding-left: 30px; padding-right: 30px;', class: 'btn btn-primary float-right'} %>
+      </div>
+    <% end %>
+  </div>
+</div>

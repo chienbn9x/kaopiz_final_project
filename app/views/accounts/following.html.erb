@@ -1,0 +1,191 @@
+<div class="user-page">
+    <header class="container user-profile pt-4 pb-1 pb-lg-3">
+        <div class="user-card">
+            <div class="d-flex">
+                <a href="" class="d-flex hero mr-lg-3 mr-1 nuxt-link-exact-active active">
+                    <% if @account.avatar.attached? %>
+                        <%= image_tag @account.avatar, size: '90', class: 'rounded-circle' %>
+                    <% else %>
+                        <%= image_tag "default_account.jpg", size: '90', class: 'rounded-circle' %>
+                    <% end %>
+                </a>
+                <div>
+                    <h1 class="user-name word-break d-inline-block"><%= @account.name %></h1>
+                    <div class="d-inline-block">
+                        <div class="subcribe">
+                            <% if user_signed_in? %>
+                                <% if @account.id == current_user.id %>
+                                <button class="btn btn-follow">
+                                    <a href="<%= edit_user_registration_path %>" style="text-decoration: none;">
+                                        <span>Sửa</span>
+                                    </a>
+                                </button>
+                                <% else %>
+                                    <% follow = current_user.follows.find_by(follow_id: @account.id) %>
+                                        <% if follow.nil? %>
+                                            <%= form_with url: follows_path, html: {id: 'post-form-follow'} do |f| %>
+                                            <%= f.hidden_field :follow_id, {value: @account.id} %>
+                                            <button class="btn btn-follow" id="btn-submit-form-follow">Theo dõi</button>
+                                            <% end %>
+                                        <% else %>
+                                        <%= form_with url: follow_path(follow), html: {id: 'post-form-follow'}, method: 'delete' do |f| %>
+                                        <%= f.hidden_field :follow_id, {value: @account.id} %>
+                                        <button id="btn-submit-form-follow" class="btn btn-follow" style="background-color: #5488c7;">
+                                            <span style="color: #fff;">Đang theo dõi</span>
+                                        </button>
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
+                            <% else %>
+                            <button class="btn btn-follow">
+                                <a href="" style="cursor: no-drop; text-decoration: none;">
+                                    <span>Theo dõi</span>
+                                </a>
+                            </button>
+                            <% end %>
+                        </div>
+                    </div>
+                    <h4 class="text-muted" style="font-size: 1rem;">
+                        <% email = @account.email %>
+                        <% tmp_email = email.index('@') %>
+                        <%= '@' + email[0...tmp_email] %>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="profile-tabs">
+        <ul class="heading-tabs horizontal-scroll container user-profile item-menu-profile">
+            <li class="heading-tabs__item">
+                <a href="<%= account_path(@account) %>" class="heading-tabs__link">Bài viết</a>
+            </li>
+            <li class="heading-tabs__item">
+                <a href="<%= account_bookmark_path(@account) %>" class="heading-tabs__link">Bookmark</a>
+            </li>
+            <li class="heading-tabs__item active">
+                <a href="" class="heading-tabs__link">Đang theo dõi</a>
+            </li>
+            <li class="heading-tabs__item">
+                <a href="<%= account_follower_path(@account) %>" class="heading-tabs__link">Người theo dõi</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container user-profile">
+        <div class="row pt-5 pb-1 flex-col-xs-reverse flex-row-lg">
+            <div class="col-lg-9">
+                <div class="user-activities">
+                    <div class="posts-list">
+                        <!-- ##################################### -->
+                        <!-- Dang theo doi -->
+                        <!-- ##################################### -->
+                        <div>
+                            <div class="block-exhibition row">
+                                <% @account.follows.each do |following| %>
+                                <% following_user = User.find_by(id: following.follow_id) %>
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="d-flex exhibition-item user">
+                                        <a href="<%= account_path(following_user) %>" class="d-flex mb-05">
+                                            <% if following_user.avatar.attached? %>
+                                                <%= image_tag following_user.avatar, size: '60', class: 'rounded-circle' %>
+                                            <% else %>
+                                                <%= image_tag "default_account.jpg", size: '60', class: 'rounded-circle' %>
+                                            <% end %>
+                                        </a>
+                                        <div class="user-info overflow-hidden">
+                                            <a href="<%= account_path(following_user) %>" class="link">
+                                                <b><%= following_user.name %></b>
+                                            </a>
+                                            <div class="user-stats text-muted">
+                                                <!-- Nguoi theo doi -->
+                                                <span class="stats-item text-muted">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+                                                        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                                        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                                                    </svg>
+                                                    <span><%= Follow.where(follow_id: following_user.id).count %></span>
+                                                </span>
+                                                <!-- Bai viet -->
+                                                <span class="stats-item text-muted">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                                    </svg>
+                                                    <span><%= following_user.posts.count %></span>  
+                                                </span>
+                                            </div>
+                                            <div class="subcribe">
+                                                <% if user_signed_in? %>
+                                                    <% if following_user.id == current_user.id %>
+                                                    <button class="btn btn-follow">
+                                                        <a href="<%= edit_user_registration_path %>" style="text-decoration: none;">
+                                                            <span>Sửa</span>
+                                                        </a>
+                                                    </button>
+                                                    <% else %>
+                                                        <% follow = current_user.follows.find_by(follow_id: following_user.id) %>
+                                                        <%= form_with url: follow_path(follow), html: {id: 'post-form-follow'}, method: 'delete' do |f| %>
+                                                        <%= f.hidden_field :follow_id, {value: @account.id} %>
+                                                        <button id="btn-submit-form-follow" class="btn btn-follow" style="background-color: #5488c7;">
+                                                            <span style="color: #fff;">Đang theo dõi</span>
+                                                        </button>
+                                                        <% end %>
+                                                    <% end %>
+                                                <% else %>
+                                                <button class="btn btn-follow">
+                                                    <a href="" style="text-decoration: none; cursor: no-drop;">
+                                                        <span>Theo dõi</span>
+                                                    </a>
+                                                </button>
+                                                <% end %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 hidden-md-down">
+                <div class="user-profile">
+                    <div class="profile-col half">
+                        <div class="sidebar-box">
+                            <div class="profile-stats">
+                                <a href="<%= account_path(@account) %>" class="link">
+                                    <p>Tổng số lượt xem bài viết</p>
+                                    <p>
+                                        <% result = 0 %>
+                                        <% @account.posts.each do |post| %>
+                                            <% result = result + post.impressionist_count(:filter=>:user_id) %>
+                                        <% end %>
+                                        <%= result %>
+                                    </p>
+                                </a>
+                                <a href="" class="link">
+                                    <p>Các thẻ theo dõi</p>
+                                    <p>***</p>
+                                </a>
+                                <a href="<%= account_following_path(@account) %>" class="link">
+                                    <p>Đang theo dõi các người dùng</p>
+                                    <p><%= @account.follows.count %></p>
+                                </a>
+                                <a href="<%= account_follower_path(@account) %>" class="link">
+                                    <p>Các người dùng đang theo dõi</p>
+                                    <p><%= Follow.where(follow_id: @account.id).count %></p>
+                                </a>
+                                <a href="<%= account_path(@account) %>" class="link">
+                                    <p>Bài viết</p>
+                                    <p><%= @account.posts.count %></p>
+                                </a>
+                                <a href="<%= account_bookmark_path(@account) %>" class="link">
+                                    <p>Bookmark</p>
+                                    <p>***</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

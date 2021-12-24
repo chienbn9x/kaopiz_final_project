@@ -1,0 +1,55 @@
+<div class="container login" style="width: 500px; height: 100%;">
+    <div class="card login-content margin-center">
+      <%= image_tag("login.png", size: "70", alt: "Error Image", class: 'margin-center') %>
+      <br>
+      <h3 class="margin-center"></b>Đăng nhập vào Blog</h3>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-group mb-1">
+          <%= f.label :email, 'Email', class: 'form-label' %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+        </div>
+
+        <div class="form-group mb-1">
+          <%= f.label :password, class: 'form-label' %><br />
+          <%= f.password_field :password, autocomplete: "current-password", class: 'form-control' %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="form-group mb-1">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, class: 'form-label' %>
+          </div>
+        <% end %>
+
+        <div class="actions mb-1">
+          <%= f.submit "Đăng nhập", class: 'btn btn-primary btn-block' %>
+        </div>
+      <% end %>
+
+      <div class="row" style="margin-top: 3px;">
+        <div class="col-md-6"><%= link_to "Quên mật khẩu?", new_password_path(resource_name) %></div>
+        <div class="col-md-6 text-right"><%= link_to "Tạo tài khoản", new_registration_path(resource_name) %></div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-3"><hr></div>
+        <div class="col-md-6 text-center"><p>Đăng nhập bằng</p></div>
+        <div class="col-md-3"><hr></div>
+      </div>
+      <div class="row mr-0 ml-0">
+        <div class="col border mr-3">
+          <%= image_tag("facebook.png", size: '25') %>
+          <%= link_to 'Facebook', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+        </div>
+        <div class="col border mr-3">
+          <%= image_tag("google.png", size: '25') %>
+          <%= link_to 'Google', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+        </div>
+        <div class="col border">
+          <%= image_tag("github.png", size: '25') %>
+          <%= link_to 'Github', '#', {style: 'font-size: 14px;', class: 'text-dark'} %>
+        </div>
+      </div>
+    </div>
+</div>

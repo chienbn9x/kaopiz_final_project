@@ -70,7 +70,7 @@
                         <% else %>
                         <div class="post-feed" style="display: none;">
                         <% end %>
-                            <% @account.posts.each do |post| %>
+                            <% @account.posts.order('updated_at desc').each do |post| %>
                             <div class="post-feed-item border-bottom">
                                 <a href="" class="d-flex mr-05">
                                     <% if post.user.avatar.attached? %>
@@ -139,6 +139,10 @@
                                                     <%= result %>
                                                 </span>
                                             </div>
+                                        </div>
+                                        <div style="padding-left: 50px;">
+                                            <a href="<%= edit_post_path(post) %>" class="btn btn-primary py-0">Sửa</a>
+                                            <a href="<%= post_path(post) %>" class="btn btn-danger py-0" data-confirm="Chắc chắn xóa?" data-method="delete">Xóa</a>
                                         </div>
                                     </div>
                                 </div>

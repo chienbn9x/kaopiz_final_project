@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     impressionist actions: [:show]
-    before_action :get_post, only: [:show]
+    before_action :get_post, only: [:show, :destroy]
 
     def index
         if params[:order].present?
@@ -53,6 +53,15 @@ class PostsController < ApplicationController
     def show
         @user = @post.user
         impressionist @post
+    end
+
+    def destroy
+        @post.likes.destroy_all
+        @post.comments.destroy_all
+        @post.bookmarks.destroy_all
+        if @post.destroy
+            redirect_back(fallback_location: root_path)
+        end
     end
 
     private

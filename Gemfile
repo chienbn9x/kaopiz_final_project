@@ -55,6 +55,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # gem devise
 gem 'devise'
 
+# email
+gem "letter_opener", group: :development
+
 # impressionist
 gem 'impressionist',
   git: 'git@github.com:charlotte-ruby/impressionist.git',

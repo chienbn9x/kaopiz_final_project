@@ -109,6 +109,10 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jbuilder (2.11.3)
       activesupport (>= 5.0.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -237,6 +241,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   impressionist!
   jbuilder (~> 2.7)
+  letter_opener
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.4, >= 6.1.4.1)

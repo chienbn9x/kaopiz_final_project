@@ -7,11 +7,11 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   # relationship
-  has_many :follows
-  has_many :posts
-  has_many :likes
-  has_many :comments
-  has_many :bookmarks
+  has_many :follows, dependent: :delete_all
+  has_many :posts, dependent: :delete_all
+  has_many :likes, dependent: :delete_all
+  has_many :comments, dependent: :delete_all
+  has_many :bookmarks, dependent: :delete_all
   has_and_belongs_to_many :tags
-  has_one_attached :avatar
+  has_one_attached :avatar, dependent: :destroy
 end

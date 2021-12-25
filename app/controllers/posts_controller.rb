@@ -65,9 +65,6 @@ class PostsController < ApplicationController
     end
 
     def destroy
-        @post.likes.destroy_all
-        @post.comments.destroy_all
-        @post.bookmarks.destroy_all
         if @post.destroy
             redirect_back(fallback_location: root_path)
         end

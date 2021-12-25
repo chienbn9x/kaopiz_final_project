@@ -10,7 +10,7 @@ https://user-images.githubusercontent.com/58911075/147379043-66003424-901f-4340-
 Các chức năng có trong website đã làm được:
 - User đăng nhập, đăng xuất, đăng ký, quên mật khẩu sử dụng 'gem devise'
 - Chỉnh sửa các thông tin của bản thân: (Avatar, tên, ngày sinh, giới tính)
-- Có thể tạo, xem, sửa, xóa bài viết
+- Có thể tạo, xem, sửa, xóa bài viết (! Chỉnh sửa bài viết chưa sửa phần tag)
 - Sắp xếp bài viết theo mới nhất, nhiều like, nhiều comment nhất lên đầu
 - Có thể like, dislike bài viết
 - Có thể comment bài viết

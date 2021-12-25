@@ -6,6 +6,16 @@
         <div class="tags-input__inner el-input__inner form-control">
             <span id="tags-input-add-items" hidden>1</span>
             <span id="tags-input-count" hidden>1</span>
+            <% if post.tags.count > 0 %>
+                <% post.tags.each do |tag| %>
+                <span class="el-tag el-tag--info el-tag--medium tags-input__tags mr-05 rounded">
+                    <span class="mr-05"><%= tag.name %></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x my-auto rounded-circle" viewBox="0 0 16 16">
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </span>
+                <% end %>
+            <% end %>
             <input type="text" placeholder="Gắn thẻ bài viết. Nhiều nhất 5 thẻ. Ít nhất 1 thẻ!", id="tag", onkeydown="javascript: return enter_function(event);">
         </div>
         <%= f.hidden_field :tag %>
@@ -15,7 +25,11 @@
     </div>
 
     <div class="form-group">
-        <%= f.button 'Tạo bài viết', {class: 'btn btn-primary mb-25', onclick: 'javascript: return submit_function();'} %>
+        <% if current_page?(new_post_path) %>
+            <%= f.button 'Tạo bài viết', {class: 'btn btn-primary mb-25', onclick: 'javascript: return submit_function();'} %>
+        <% elsif current_page?(edit_post_path) %>
+            <%= f.button 'Sửa bài viết', {class: 'btn btn-primary mb-25', onclick: 'javascript: return submit_function();'} %>
+        <% end %>
     </div>
 <% end %>
 <script>

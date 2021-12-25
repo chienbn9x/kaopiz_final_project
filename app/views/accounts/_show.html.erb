@@ -370,7 +370,7 @@
                                 </a>
                                 <a href="<%= account_bookmark_path(@account) %>" class="link">
                                     <p>Bookmark</p>
-                                    <p>***</p>
+                                    <p><%= @account.bookmarks.count %></p>
                                 </a>
                             </div>
                         </div>

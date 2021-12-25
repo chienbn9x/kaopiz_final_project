@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     impressionist actions: [:show]
-    before_action :get_post, only: [:show, :destroy]
+    before_action :get_post, only: [:show, :destroy, :edit, :update]
 
     def index
         if params[:order].present?
@@ -53,6 +53,15 @@ class PostsController < ApplicationController
     def show
         @user = @post.user
         impressionist @post
+    end
+
+    def edit
+    end
+
+    def update
+        if @post.update(post_params)
+            redirect_to @post
+        end
     end
 
     def destroy

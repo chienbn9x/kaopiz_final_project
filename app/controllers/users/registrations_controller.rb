@@ -69,4 +69,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:email, :dob, :gender, :avatar)
   end
 
+  # okokok
+
 end
